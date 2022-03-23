@@ -24,7 +24,26 @@ import org.junit.runner.RunWith;
 
 @RunWith(ConcordionRunner.class)
 @ConcordionResources(value = { "/concordion.css" })
-@Unimplemented
 public class ViewStatement {
 
+    private Account account;
+
+    public void createEmptyAccount(){
+        account =Account.emptyAccount();
+    }
+
+    public void addTransaction(String date,String direction,long amount) throws Exception {
+        Money value=Money.amountOf(amount);
+        switch(direction.toUpperCase()){
+            case "DEPOSIT":
+                account.deposit(value);
+                break;
+            default:
+                throw new Exception("direction not recognised");
+        }
+    }
+
+    public MiniStatement generateStatement(String datetime){
+        return new MiniStatement(account,datetime);
+    }
 }

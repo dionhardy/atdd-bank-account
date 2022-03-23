@@ -15,7 +15,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<html>
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
 <head>
     <title>Bank Statements</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -27,6 +27,32 @@
 <h1>Bank Statements</h1>
 
 <!-- Add your "specification" here -->
+<p>As a customer a want to request a statement of transactions and current balance on my account</p>
+<p>Given a <span concordion:execute="createEmptyAccount()">empty account</span>, with the follwoing transactions:</p>
+<table concordion:execute="addTransaction(#date,#direction,#amount)">
+    <thead>
+    <tr>
+    <th concordion:set="#date">Date</th>
+    <th concordion:set="#direction">Direction</th>
+    <th concordion:set="#amount">Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>2022-03-23 13:08:10</td>
+        <td>DEPOSIT</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>2022-03-23 13:11:10</td>
+        <td>DEPOSIT</td>
+        <td>25</td>
+    </tr>
+    </tbody>
+</table>
+
+<p> <span concordion:execute="#statement = generateStatement(#datetime)">statement</span> is requested at <span concordion:set="#datetime">2022-03-23 13:20:10</span></p>
+<p>I should see the current balance of <span concordion:set="#balance">75</span> <span concordion:assert-equals="#statement.isCurrentBalance(#balance)">correctly</span></p>
 
 <div class="information">
     <h3>Further information</h3>
